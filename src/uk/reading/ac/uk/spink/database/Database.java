@@ -1,5 +1,7 @@
 package uk.reading.ac.uk.spink.database;
 
+import org.jetbrains.annotations.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,6 +10,7 @@ import java.sql.Statement;
 //Create database class
 public class Database {
 
+    private static String EmployeeTable;
     private String databaseName;
     private String userName;
     private String password;
@@ -32,7 +35,7 @@ public class Database {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } ;
+        }
     }
 
     void Close(){
@@ -52,27 +55,28 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    };
+    }
 
-    void InsertOne(Employee e){
+    void InsertOne(String Table, @NotNull Employee e){
         try {
-          Statement stm = null;
+          Statement stm;
           stm = this.c.createStatement();
-          String sql = String.format("INSERT INTO CompanyTest (ID,NAME,AGE,ADDRESS,SALARY)  VALUES (2,'%s',%d,'%s',%d)"
-                  , e.name, e.age, e.address, e.salary);
+          String sql = "INSERT INTO public.\""+Table+"\"(\"Name\", \"Email\", \"Address\", \"Age\", \"Salary\")\n" +
+                  "VALUES ('"+e.name+"','"+e.email+"','"+e.address+"',"+e.age+","+e.salary+");";
+          System.out.println(sql);
           stm.executeUpdate(sql);
           System.out.println("Inserted "+e.toString());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    };
+    }
 
     public static void main(String[] args) {
-        Database db1 = new Database("CompanyTest", "postgres", "1Etsbqyuw");
+        Database db1 = new Database("Employees", "postgres", "1Etsbqyuw");
         db1.Connect();
         //db1.Create(schema);
-        Employee e1 = new Employee("Sam", "16 Eastern", 20, 20000);
-        db1.InsertOne(e1);
+        Employee e1 = new Employee("Bob","bob.Jim@outlook.com" ,"His house", 45, 6);
+        db1.InsertOne("EmployeeTable", e1);
     }
 
 }
