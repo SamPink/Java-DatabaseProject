@@ -24,7 +24,7 @@ public class Database {
     }
 
     //Connect to database
-    void Connect(){
+    public void Connect(){
         try {
             Class.forName("org.postgresql.Driver");
             this.c = DriverManager
@@ -38,7 +38,7 @@ public class Database {
         }
     }
 
-    void Close(){
+    public void Close(){
         try {
             this.c.close();
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class Database {
         }
     }
 
-    void InsertOne(String Table, @NotNull Employee e){
+    public void InsertOne(String Table, @NotNull Employee e){
         try {
           Statement stm;
           stm = this.c.createStatement();
@@ -72,11 +72,6 @@ public class Database {
     }
 
     public static void main(String[] args) {
-        Database db1 = new Database("Employees", "postgres", "1Etsbqyuw");
-        db1.Connect();
-        //db1.Create(schema);
-        Employee e1 = new Employee("Bob","bob.Jim@outlook.com" ,"His house", 45, 6);
-        db1.InsertOne("EmployeeTable", e1);
     }
 
 }
