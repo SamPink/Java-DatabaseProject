@@ -1,11 +1,7 @@
 package uk.reading.ac.uk.spink.database;
 
-import org.jetbrains.annotations.*;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import org.jetbrains.annotations.NotNull;
+import java.sql.*;
 
 //Create database class
 public class Database {
@@ -57,6 +53,25 @@ public class Database {
         }
     }
 
+    public Employee ReadOne(String query){
+        String sql = query;
+        Employee e1 = new Employee("","","",0,0);
+        try {
+            Statement stmt = this.c.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+               e1.name = rs.getString("Name");
+               e1.email = rs.getString("Email");
+               e1.address = rs.getString("Address");
+               e1.age = rs.getInt("Age");
+               e1.salary = rs.getInt("Salary");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return e1;
+    }
+
     public void InsertOne(String Table, @NotNull Employee e){
         try {
           Statement stm;
@@ -72,6 +87,13 @@ public class Database {
     }
 
     public static void main(String[] args) {
+        Database db1 = new Database("Employees", "postgres", "1Etsbqyuw");
+        db1.Connect();
+        Employee emp1 = db1.ReadOne("SELECT \"ID\", \"Name\", \"Email\", \"Address\", \"Age\", \"Salary\"\n" +
+                "\tFROM public.\"EmployeeTable\"\n" +
+                "\tLIMIT 1;");
+
+        System.out.println(emp1.toString());
     }
 
 }

@@ -9,6 +9,15 @@ public class Employee {
     int age;
     int salary;
 
+    public String toString(){
+        String s = "Name: " + this.name + "\n" +
+                "Email: " + this.email + "\n" +
+                "Address: " + this.address + "\n" +
+                "Age: " + this.age + "\n" +
+                "Salary: " + this.salary;
+        return s;
+    }
+
     public Employee(String name,String email , String address, int age,int salary){
         this.name = name;
         this.email = email;
