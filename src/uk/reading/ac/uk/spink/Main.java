@@ -4,7 +4,7 @@ import uk.reading.ac.uk.spink.database.*;
 
 public class Main {
     public static void main(String[] args){
-        Database db1 = new Database("Employees", "postgres", "1Etsbqyuw");
+        Database db1 = new Database("Employees", "postgres", "");
 
         db1.Connect();
         //db1.Create(schema);
